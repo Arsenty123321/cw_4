@@ -32,6 +32,15 @@ class FromVacancy:
         """
         return 0 if sallary < 0 else sallary
 
+    @classmethod
+    def create_vacancy(cls, vacancy_data: dict):
+        return cls(
+            name=vacancy_data["name"],
+            salary_from=vacancy_data["salary_from"],
+            url=vacancy_data["url"],
+            requirement=vacancy_data["requirement]"],
+        )
+
     def __gt__(self, other):
         return self.__salary_from > other.__salary_from
 
