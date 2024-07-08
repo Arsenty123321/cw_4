@@ -47,10 +47,4 @@ class HHAPI(API):
                 vacancies = response.json()['items']
                 self.vacancies.extend(vacancies)
                 self.params['page'] += 1
-            return self.vacancies
-
-
-if __name__ == '__main__':
-    hh = HHAPI()
-    data = hh.get_vacancies("python")
-    print(data)
+        return self.vacancies
