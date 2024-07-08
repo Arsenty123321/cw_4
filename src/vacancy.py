@@ -12,7 +12,7 @@ class FromVacancy:
         self.__requirement = self.__validate_data(requirement)
 
     @property
-    def salary_from(self):
+    def salary(self):
         return self.__salary
 
     def __str__(self):
@@ -55,7 +55,7 @@ class FromVacancy:
         return cls(
             name=vacancy_data["name"],
             salary=vacancy_data["salary"],
-            url=vacancy_data["url"],
+            url=vacancy_data["alternate_url"],
             requirement=vacancy_data["snippet"].get("requirement"),
             area_name=vacancy_data["area"].get("name"),
         )
