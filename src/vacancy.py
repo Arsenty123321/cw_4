@@ -2,9 +2,10 @@ class FromVacancy:
     """
     Класс для работы с вакансиями.
     """
-    __slots__ = ['__name', '__salary', '__url', '__area_name', '__requirement']
+    __slots__ = ['__pk', '__name', '__salary', '__url', '__area_name', '__requirement']
 
-    def __init__(self, name: str, salary: dict, url: str, area_name: str, requirement: str):
+    def __init__(self, pk: int, name: str, salary: dict, url: str, area_name: str, requirement: str):
+        self.__pk = pk
         self.__name = name
         self.__salary = self.__validate_salary(salary)
         self.__url = url
@@ -17,7 +18,7 @@ class FromVacancy:
 
     def __str__(self):
         return (
-            f"Название: {self.__name}\n"
+            f"Вакансия: {self.__name}\n"
             f"Зарплата: от {self.__salary}\n"
             f"Город: {self.__area_name}\n"
             f"Ссылка: {self.__url}\n"
@@ -54,11 +55,22 @@ class FromVacancy:
     def create_vacancy(cls, vacancy_data: dict):
         return cls(
             name=vacancy_data["name"],
+            pk=vacancy_data["id"],
             salary=vacancy_data["salary"],
             url=vacancy_data["alternate_url"],
             requirement=vacancy_data["snippet"].get("requirement"),
             area_name=vacancy_data["area"].get("name"),
         )
+
+    def to_dict(self) -> dict:
+        return {
+            "hh_id": self.__pk,
+            "name": self.__name,
+            "salary": self.__salary,
+            "url": self.__url,
+            "requirement": self.__requirement,
+            "area_name": self.__area_name,
+        }
 
     def __gt__(self, other):
         return self.__salary > other.__salary
