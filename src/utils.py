@@ -11,7 +11,7 @@ def get_vacancies_objects(vacancies: list[dict]) -> list[FromVacancy]:
     return [FromVacancy.create_vacancy(vacancy) for vacancy in vacancies]
 
 
-def filter_vacancies(vacancies: list[FromVacancy], filter_words: str, salary_range: str, top_n: int)\
+def filter_vacancies(vacancies: list[FromVacancy], filter_words: list, salary_range: str, top_n: int)\
         -> list[FromVacancy]:
     """
     Возвращает top_n вакансий отфильтрованных по зарплате в диапазоне salary_range и ключевым словам filter_words.
@@ -19,10 +19,13 @@ def filter_vacancies(vacancies: list[FromVacancy], filter_words: str, salary_ran
     filtered_vacancies = []
     # Фильтрация по ключевым словам
     for vac in vacancies:
-        for w in filter_words.split():
-            if w.lower() in str(vac).lower():
-                filtered_vacancies.append(vac)
-                break
+        if len(filter_words) > 0:
+            for w in filter_words:
+                if w.lower() in str(vac).lower():
+                    filtered_vacancies.append(vac)
+                    break
+        else:
+            filtered_vacancies.append(vac)
 
     # Фильтрация вакансий по диапазону зарплат
     salary_from, salary_to = [int(value) for value in salary_range.split('-')]
@@ -40,7 +43,7 @@ def user_interaction():
     search_query = input("Введите поисковый запрос: ")
 
     top_n = int(input("Введите количество вакансий для вывода в топ N: "))
-    filter_words = input("Введите ключевые слова для фильтрации вакансий: ")
+    filter_words = input("Введите ключевые слова для фильтрации вакансий: ").split()
     salary_range = input("Введите диапазон зарплат (Пример: 100000-150000): ")
 
     hh_api = HHAPI()
